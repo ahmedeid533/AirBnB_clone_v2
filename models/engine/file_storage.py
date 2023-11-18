@@ -12,7 +12,10 @@ class FileStorage:
         """delete the specfic item in my objects"""
         if (obj is None):
             return
-        FileStorage.__objects.pop(f"{obj.to_dict()[__class__]}.{obj.id}")
+        try:
+            FileStorage.__objects.pop(f"{obj.to_dict()[__class__]}.{obj.id}")
+        except Exception:
+            return
         self.save()
 
     def all(self, cls=None):
