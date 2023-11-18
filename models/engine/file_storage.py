@@ -9,6 +9,7 @@ class FileStorage:
     __objects = {}
 
     def delete(self, obj=None):
+        """delete the specfic item in my objects"""
         if (obj is None):
             return
         FileStorage.__objects.pop(f"{obj.to_dict()[__class__]}.{obj.id}")
