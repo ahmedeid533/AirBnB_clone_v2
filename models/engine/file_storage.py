@@ -21,7 +21,7 @@ class FileStorage:
         else:
             newDict = dict()
             for key, value in FileStorage.__objects.items():
-                if (type(value) != cls):
+                if (not(isinstance(value, cls))):
                     continue
                 else:
                     newDict[key] = value
