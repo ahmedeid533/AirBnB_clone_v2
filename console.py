@@ -130,10 +130,10 @@ class HBNBCommand(cmd.Cmd):
                 if listOfarg[1][0] == "\"" and listOfarg[1][-1] == "\"":
                     value = listOfarg[1].strip("\"").replace("_", " ")
                 elif listOfarg[1].isdigit():
-                    value = int(value)
+                    value = int(listOfarg[1])
                 else:
                     try:
-                        value = float(value)
+                        value = float(listOfarg[1])
                     except Exception:
                         continue
             dictForStorage[key] = value
