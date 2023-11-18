@@ -20,7 +20,7 @@ class FileStorage:
         if cls is None:
             return FileStorage.__objects
         else:
-            newDict = dict()
+            newDict = {}
             for key, value in FileStorage.__objects.items():
                 if (not(isinstance(value, cls))):
                     continue
