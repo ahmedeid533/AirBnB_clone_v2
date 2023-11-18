@@ -129,7 +129,7 @@ class HBNBCommand(cmd.Cmd):
                 key = listOfarg[0]
                 if listOfarg[1][0] == "\"" and listOfarg[1][-1] == "\"":
                     value = listOfarg[1].strip("\"").replace("_", " ")
-                elif value.isdigit():
+                elif listOfarg[1].isdigit():
                     value = int(value)
                 else:
                     try:
