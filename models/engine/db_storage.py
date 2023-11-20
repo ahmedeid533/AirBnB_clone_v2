@@ -2,11 +2,9 @@
 """DB storage"""
 from os import getenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import relationship
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 from models.base_model import Base
-from models.base_model import BaseModel
 from models.user import User
 from models.city import City
 from models.state import State
