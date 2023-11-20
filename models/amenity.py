@@ -7,8 +7,6 @@ from models.base_model import Base
 from sqlalchemy import String
 
 
-
-
 class Amenity(BaseModel, Base):
     """enjoy boy"""
     __tablename__ = "amenities"
