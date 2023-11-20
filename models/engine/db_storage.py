@@ -47,5 +47,32 @@ class DBStorage:
                 cls = eval(cls)
             Q_result = self.__session.query(cls)
         return {"{}.{}".format(type(i).__name__, i.id): i for i in Q_result}
+    
+    def new(self, obj):
+        """add new record"""
+        self.__session.add(obj)
+    
+    def save(self):
+        """save changes"""
+        self.__session.commit()
 
+    def delete(self, obj=None):
+        """Delete record from DB"""
+        if obj is not None:
+            self.__session.delete(obj)
+
+    def reload(self):
+        """
+            get the DATA from DB to workplace
+            scoped_session - to make sure your Session is thread-safe
+        """
+        Base.metadata.create_all(self.__engine)
+        session_maker = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
+        get_Session = scoped_session(session_maker)
+        self.__session = get_Session()
+
+    def close(self):
+        """hea end of work"""
+        self.__session.close()
 
