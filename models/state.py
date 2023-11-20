@@ -2,16 +2,16 @@
 """ State Module for HBNB project """
 import models
 from os import getenv
+from sqlalchemy.orm import relationship
 from models.base_model import Base
 from models.base_model import BaseModel
 from models.city import City
 from sqlalchemy import Column
 from sqlalchemy import String
-from sqlalchemy.orm import relationship
 
 
 class State(BaseModel, Base):
-    """ State class """
+    """ State class"""
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
     cities = relationship("City",  backref="state", cascade="delete")

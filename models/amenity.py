@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 """import modules for amenity"""
+from models.base_model import BaseModel
 from sqlalchemy import Column
-from sqlalchemy import String
 from sqlalchemy.orm import relationship
 from models.base_model import Base
-from models.base_model import BaseModel
+from sqlalchemy import String
+
 
 
 

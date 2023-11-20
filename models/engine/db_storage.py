@@ -33,17 +33,17 @@ class DBStorage:
     def all(self, cls=None):
         """query on db by class name or select * """
         if cls is None:
-            objs = self.__session.query(State).all()
-            objs.extend(self.__session.query(City).all())
-            objs.extend(self.__session.query(User).all())
-            objs.extend(self.__session.query(Place).all())
-            objs.extend(self.__session.query(Review).all())
-            objs.extend(self.__session.query(Amenity).all())
+            q_var = self.__session.query(State).all()
+            q_var.extend(self.__session.query(City).all())
+            q_var.extend(self.__session.query(User).all())
+            q_var.extend(self.__session.query(Place).all())
+            q_var.extend(self.__session.query(Review).all())
+            q_var.extend(self.__session.query(Amenity).all())
         else:
             if type(cls) == str:
                 cls = eval(cls)
-            Q_result = self.__session.query(cls)
-        return {"{}.{}".format(type(i).__name__, i.id): i for i in Q_result}
+            q_var = self.__session.query(cls)
+        return {"{}.{}".format(type(i).__name__, i.id): i for i in q_var}
 
     def new(self, obj):
         """add new record"""
