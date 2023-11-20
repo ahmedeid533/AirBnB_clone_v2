@@ -59,7 +59,8 @@ class FileStorage:
 
     def delete(self, obj=None):
         """delete the specfic item in my objects"""
-        if (obj is None):
-            return
-        self.__objects.pop(
-                obj.to_dict()['__class__'] + '.' + obj.id)
+        try:
+            del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
+        except (AttributeError, KeyError):
+            pass
+
