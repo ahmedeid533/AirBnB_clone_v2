@@ -12,7 +12,7 @@ class FileStorage:
         """delete the specfic item in my objects"""
         if (obj is None):
             return
-        self.__objects.pop(
+        FileStorage.__objects.pop(
                 obj.to_dict()['__class__'] + '.' + obj.id)
         self.save()
 
