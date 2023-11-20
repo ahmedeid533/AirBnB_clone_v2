@@ -44,11 +44,11 @@ class DBStorage:
                 cls = eval(cls)
             Q_result = self.__session.query(cls)
         return {"{}.{}".format(type(i).__name__, i.id): i for i in Q_result}
-    
+
     def new(self, obj):
         """add new record"""
         self.__session.add(obj)
-    
+
     def save(self):
         """save changes"""
         self.__session.commit()
@@ -65,11 +65,10 @@ class DBStorage:
         """
         Base.metadata.create_all(self.__engine)
         session_maker = sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False)
+                                     expire_on_commit=False)
         get_Session = scoped_session(session_maker)
         self.__session = get_Session()
 
     def close(self):
         """hea end of work"""
         self.__session.close()
-
