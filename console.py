@@ -1,4 +1,4 @@
-
+#!/usr/bin/python3
 """ Console Module """
 import cmd
 import sys
@@ -121,7 +121,6 @@ class HBNBCommand(cmd.Cmd):
         elif args.split()[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        print(args.split()[0])
         listOfargs = args.split()[1:]
         dictForStorage = {}
         for arg in listOfargs:
@@ -129,7 +128,7 @@ class HBNBCommand(cmd.Cmd):
                 listOfarg = arg.split("=")
                 key = listOfarg[0]
                 if listOfarg[1][0] == "\"" and listOfarg[1][-1] == "\"":
-                    value = listOfarg[1].strip("\"").replace("_", " ").replace('\"','')
+                    value = listOfarg[1].strip("\"").replace("_", " ")
                 elif listOfarg[1].isdigit():
                     value = int(listOfarg[1])
                 else:
@@ -145,7 +144,6 @@ class HBNBCommand(cmd.Cmd):
                 **dictForStorage)
         storage.save()
         print(new_instance.id)
-        print(dictForStorage)
 
     def help_create(self):
         """ Help information for the create method """
