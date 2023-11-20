@@ -13,7 +13,6 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
         elif 'id' not in kwargs:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
@@ -26,6 +25,7 @@ class BaseModel:
                                                      '%Y-%m-%dT%H:%M:%S.%f')
             del kwargs['__class__']
             self.__dict__.update(kwargs)
+        storage.new(self)
 
     def __str__(self):
         """Returns a string representation of the instance"""
