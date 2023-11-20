@@ -137,7 +137,7 @@ class HBNBCommand(cmd.Cmd):
                 new_obj = eval(list_of_args[0])()
             else:
                 new_obj = eval(list_of_args[0])(**kwargs)
-                storage.new(obj)
+                storage.new(new_obj)
             print(new_obj.id)
             new_obj.save()
         except SyntaxError:
