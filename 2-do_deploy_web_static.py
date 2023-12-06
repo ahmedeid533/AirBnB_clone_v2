@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """genrate.tgz file"""
-
+from fabric import Connection
 from fabric.api import *
 from datetime import datetime
 import os
@@ -21,29 +21,36 @@ def do_pack():
 
 @task
 def do_deploy(archive_path):
-    """deploy function"""
-    env.hosts = ['54.89.57.165', '18.207.142.135']
+    """do_deploy function"""
+    env = {
+        "hosts": ['54.89.57.165', '18.207.142.135'],
+        "user": "your_username",
+    }
     if not os.path.exists(archive_path):
+        print(f"Archive '{archive_path}' does not exist.")
         return False
+
     try:
-        for host in env.hosts:
-            env.host_string = host
-            filename = archive_path.split('/')[-1]
-            up_filename = filename.split('.')[0]
-            put(archive_path, '/tmp/')
-            run(f'mkdir -p /data/web_static/releases/{up_filename}/')
-            run(f'tar -xzf /tmp/{up_filename}.tgz -C \
-                /data/web_static/releases/{up_filename}/')
-            run(f'rm /tmp/{up_filename}.tgz')
-            run(f'mv /data/web_static/releases/{up_filename}/web_static/* \
-                /data/web_static/releases/{up_filename}/')
-            run(
-                f'rm -rf /data/web_static/releases/{up_filename}/web_static')
-            run(f'rm -rf /data/web_static/current')
-            run(f'ln -s /data/web_static/releases/{up_filename}/ \
-                /data/web_static/current')
-            print('New version deployed!')
+        for host in env["hosts"]:
+            with Connection(host=host, user=env["user"]) as conn:
+                filename = os.path.basename(archive_path)
+                folder = os.path.splitext(filename)[0]
+
+                remote_tmp_path = f'/tmp/{filename}'
+                remote_release = f'/data/web_static/releases/{folder}/'
+                current_link = '/data/web_static/current'
+
+                conn.put(archive_path, remote_tmp_path)
+                conn.run(f'mkdir -p {remote_release}')
+                conn.run(f'tar -xzf {remote_tmp_path} -C {remote_release}')
+                conn.run(f'rm {remote_tmp_path}')
+
+                conn.sudo(f'rm -rf {current_link}')
+                conn.sudo(f'ln -s {remote_release} {current_link}')
+
+                print(f"Deployment on {host} successful!")
 
         return True
-    except Exception as err:
+    except Exception as e:
+        print(f"An error occurred: {e}")
         return False
