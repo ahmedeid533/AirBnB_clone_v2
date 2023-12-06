@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"depoly by fabric"
+"""depoly by fabric"""
 from fabric.api import *
 from fabric import task
 from datetime import datetime
