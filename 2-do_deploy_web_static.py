@@ -6,10 +6,6 @@ from datetime import datetime
 import os
 
 
-env.hosts = ['54.89.57.165', '18.207.142.135']
-env.user = "ubuntu"
-
-
 @task
 def do_pack():
     """archive web_static"""
@@ -26,6 +22,8 @@ def do_pack():
 @task
 def do_deploy(archive_path):
     """fuck fabric depoly by command"""
+    env.hosts = ['54.89.57.165', '18.207.142.135']
+    env.user = "ubuntu"
     if not os.path.exists(archive_path):
         return (False)
     try:
