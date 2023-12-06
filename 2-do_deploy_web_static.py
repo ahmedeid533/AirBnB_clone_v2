@@ -48,9 +48,8 @@ def do_deploy(archive_path):
                 conn.sudo(f'rm -rf {current_link}')
                 conn.sudo(f'ln -s {remote_release} {current_link}')
 
-                print(f"Deployment on {host} successful!")
+                print('New version deployed!')
 
         return True
     except Exception as e:
-        print(f"An error occurred: {e}")
         return False
