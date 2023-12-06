@@ -23,14 +23,15 @@ def do_pack():
 def do_deploy(archive_path):
     """deploy function"""
     env.hosts = ['54.89.57.165', '18.207.142.135']
+    env.user = "ubuntu"
     if not os.path.exists(archive_path):
         return (False)
 
     try:
         li = archive_path.split('/')[-1]
 
-        path_of_releases = f"/data/web_static/releases/{file_name[:-4]}/"
-        path_of_tmp = f"/tmp/{file_name}"
+        path_of_releases = f"/data/web_static/releases/{li[:-4]}/"
+        path_of_tmp = f"/tmp/{li}"
 
         put(archive_path, "/tmp/")
         run(f"mkdir -p {path_of_releases}")
