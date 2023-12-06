@@ -7,6 +7,7 @@ import os
 
 @task
 def do_pack(c):
+    """do_pack funcation"""
     source_folder = 'web_static'
     target_folder = 'versions'
     c.run(f'mkdir -p {target_folder}')
