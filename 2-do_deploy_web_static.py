@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """genrate.tgz file"""
-from fabric import Connection
+
 from fabric.api import *
 from datetime import datetime
 import os
@@ -21,35 +21,26 @@ def do_pack():
 
 @task
 def do_deploy(archive_path):
-    """do_deploy function"""
-    env = {
-        "hosts": ['54.89.57.165', '18.207.142.135'],
-        "user": "your_username",
-    }
+    """deploy function"""
+    env.hosts = ['54.89.57.165', '18.207.142.135']
     if not os.path.exists(archive_path):
-        print(f"Archive '{archive_path}' does not exist.")
-        return False
+        return (False)
 
     try:
-        for host in env["hosts"]:
-            with Connection(host=host, user=env["user"]) as conn:
-                filename = os.path.basename(archive_path)
-                folder = os.path.splitext(filename)[0]
+        li = archive_path.split('/')[-1]
 
-                remote_tmp_path = f'/tmp/{filename}'
-                remote_release = f'/data/web_static/releases/{folder}/'
-                current_link = '/data/web_static/current'
+        path_of_releases = f"/data/web_static/releases/{file_name[:-4]}/"
+        path_of_tmp = f"/tmp/{file_name}"
 
-                conn.put(archive_path, remote_tmp_path)
-                conn.run(f'mkdir -p {remote_release}')
-                conn.run(f'tar -xzf {remote_tmp_path} -C {remote_release}')
-                conn.run(f'rm {remote_tmp_path}')
-
-                conn.sudo(f'rm -rf {current_link}')
-                conn.sudo(f'ln -s {remote_release} {current_link}')
-
-                print('New version deployed!')
-
-        return True
-    except Exception as e:
-        return False
+        put(archive_path, "/tmp/")
+        run(f"mkdir -p {path_of_releases}")
+        run(f"tar -xzf {path_of_tmp} -C {path_of_releases}")
+        run(f"rm {path_of_tmp}")
+        run(f"mv {path_of_releases}web_static/* {path_of_releases}")
+        run(f"rm -rf {path_of_releases}web_static")
+        run(f"rm -rf /data/web_static/current")
+        run(f"ln -s {path_of_releases} /data/web_static/current")
+        print("New version deployed!")
+        return (True)
+    except Exception:
+        return (False)
