@@ -49,6 +49,5 @@ def do_deploy(archive_path):
                 print(f'New version deployed to {host}!')
 
         return True
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    except Exception:
         return False
