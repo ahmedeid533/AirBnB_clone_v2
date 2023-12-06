@@ -21,7 +21,7 @@ def do_pack():
 
 @task
 def do_deploy(archive_path):
-    """deploy web_static to servers"""
+    """deploy function"""
     env.hosts = ['54.89.57.165', '18.207.142.135']
     if not os.path.exists(archive_path):
         return False
@@ -46,5 +46,5 @@ def do_deploy(archive_path):
             print('New version deployed!')
 
         return True
-    except Exception:
+    except Exception as err:
         return False
