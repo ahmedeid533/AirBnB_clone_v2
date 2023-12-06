@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-"""depoly by fabric"""
+"""genrate.tgz file"""
+
 from fabric.api import *
-from fabric import task
 from datetime import datetime
 import os
 
