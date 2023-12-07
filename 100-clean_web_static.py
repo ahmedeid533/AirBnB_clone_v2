@@ -69,6 +69,7 @@ def do_clean(number):
     output_lines = result.stdout.splitlines()
     file_names = [line.strip() for line in output_lines]
     file_names.sort()
+    print(file_names)
     number = int(number)
     if number < 1:
         number = 1
@@ -77,5 +78,6 @@ def do_clean(number):
         f_n = file.split(".")[0]
         if run("rm -rf /data/web_static/releases/{}/".
                format(f_n)).failed is True:
+            print("faild")
             return False
         local("rm -rf versions/{}".format(file))
