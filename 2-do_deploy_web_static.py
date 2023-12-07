@@ -1,18 +1,18 @@
 #!/usr/bin/python3
-"""genrate.tgz file"""
+"""use .tgz file"""
 
-from fabric.api import local, task, env
+from fabric.api import *
 from datetime import datetime
 import os
 
 @task
 def do_pack():
-    """archive web_static"""
+    """web_static"""
     try:
-        time_now = datetime.now().strftime('%Y%m%d%H%M%S')
-        nameOfFile = 'web_static_{}.tgz web_static'.format(time_now)
+        time = datetime.now().strftime('%Y%m%d%H%M%S')
+        name = 'web_static_{}.tgz web_static'.format(time)
         local("mkdir -p versions")
-        local("tar -cvzf versions/{}".format(nameOfFile))
+        local("tar -cvzf versions/{}".format(name))
         return "versions/"
     except Exception:
         return None
@@ -20,10 +20,12 @@ def do_pack():
 
 @task
 def do_deploy(archive_path):
-    """deploy function"""
+    """deploy"""
     env.hosts = ['100.25.215.68', '100.25.147.204']
     env.user = "ubuntu"
     if not os.path.exists(archive_path):
+        print("false")
         return (False)
     else:
+        print("true")
         return True
