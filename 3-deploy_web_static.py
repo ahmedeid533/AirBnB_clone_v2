@@ -7,7 +7,7 @@ import os
 env.hosts = ["100.25.215.68", "100.25.147.204"]
 env.user = "ubuntu"
 gloVar = 0
-file_pa = ""
+file_pa = None
 
 
 def do_pack():
