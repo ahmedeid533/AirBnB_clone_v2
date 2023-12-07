@@ -1,14 +1,13 @@
 #!/usr/bin/python3
 """use .tgz file"""
-
 from fabric.api import *
 from datetime import datetime
 import os
+
 env.hosts = ["100.25.215.68", "100.25.147.204"]
 env.user = "ubuntu"
 
 
-@task
 def do_pack():
     """web_static"""
     try:
@@ -21,7 +20,6 @@ def do_pack():
         return None
 
 
-@task
 def do_deploy(archive_path):
     """deploy"""
 

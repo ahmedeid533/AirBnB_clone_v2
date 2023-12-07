@@ -1,41 +1,63 @@
 #!/usr/bin/python3
-"""genrate.tgz file"""
-
+"""use .tgz file"""
 from fabric.api import *
 from datetime import datetime
 import os
 
+env.hosts = ["100.25.215.68", "100.25.147.204"]
+env.user = "ubuntu"
 
-@task
+
 def do_pack():
-    """archive web_static"""
+    """web_static"""
     try:
-        time_now = datetime.now().strftime('%Y%m%d%H%M%S')
-        nameOfFile = 'web_static_{}.tgz web_static'.format(time_now)
+        time = datetime.now().strftime('%Y%m%d%H%M%S')
+        name_we = 'web_static_{}.tgz web_static'.format(time)
         local("mkdir -p versions")
-        local("tar -cvzf versions/{}".format(nameOfFile))
-        return "versions/"
+        local("tar -cvzf versions/{}".format(name_we))
+        return "versions/{}".format(name_we)
     except Exception:
         return None
 
 
-@task
 def do_deploy(archive_path):
-    """deploy function"""
-    env.hosts = ['54.89.57.165', '18.207.142.135']
-    if not os.path.exists(archive_path):
+    """deploy"""
+
+    if os.path.isfile(archive_path) is False:
         return False
-    else:
-        return True
+    file = archive_path.split("/")[-1]
+    name = file.split(".")[0]
+
+    if put(archive_path, "/tmp/{}".format(file)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/releases/{}/".
+           format(name)).failed is True:
+        return False
+    if run("mkdir -p /data/web_static/releases/{}/".
+           format(name)).failed is True:
+        return False
+    if run("tar -xzf /tmp/{} -C /data/web_static/releases/{}/".
+           format(file, name)).failed is True:
+        return False
+    if run("rm /tmp/{}".format(file)).failed is True:
+        return False
+    if run("mv /data/web_static/releases/{}/web_static/* \
+           /data/web_static/releases/{}/".format(name, name)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/releases/{}/web_static".
+           format(name)).failed is True:
+        return False
+    if run("rm -rf /data/web_static/current").failed is True:
+        return False
+    if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
+           format(name)).failed is True:
+        return False
+    return True
 
 
-@task
 def deploy():
-    """deploy function"""
-    try:
-        path = do_pack()
-        if path is None:
-            return False
-        return do_deploy(path)
-    except Exception as e:
+    """Create and distribute"""
+    file = do_pack()
+    if file is None:
         return False
+    return do_deploy(file)
