@@ -59,6 +59,7 @@ def do_deploy(archive_path):
 
 def deploy():
     """Create and distribute"""
+    global gloVar, file_pa
     if gloVar == 0:
         file_pa = do_pack()
     if file_pa is None:
@@ -69,6 +70,7 @@ def deploy():
 
 def do_clean(number):
     """clean unwanted versions"""
+    global gloVar
     result = local("ls -1 versions/", capture=True)
     file_names = result.stdout.strip().split('\n')
     file_names.sort()
