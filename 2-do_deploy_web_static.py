@@ -4,7 +4,8 @@
 from fabric.api import *
 from datetime import datetime
 import os
-
+env.hosts = ["100.25.215.68", "100.25.147.204"]
+env.user = "ubuntu"
 @task
 def do_pack():
     """web_static"""
@@ -21,8 +22,7 @@ def do_pack():
 @task
 def do_deploy(archive_path):
     """deploy"""
-    env.hosts = ['100.25.215.68', '100.25.147.204']
-    env.user = "ubuntu"
+    
     if os.path.isfile(archive_path) is False:
         return False
     file = archive_path.split("/")[-1]
