@@ -6,7 +6,8 @@ import os
 
 env.hosts = ["100.25.215.68", "100.25.147.204"]
 env.user = "ubuntu"
-
+gloVar = 0
+file_pa = ""
 
 def do_pack():
     """web_static"""
@@ -57,7 +58,30 @@ def do_deploy(archive_path):
 
 def deploy():
     """Create and distribute"""
-    file = do_pack()
-    if file is None:
+    if gloVar == 0:
+        file_pa = do_pack()
+    if file_pa is None:
         return False
-    return do_deploy(file)
+    gloVar = 1
+    return do_deploy(file_pa)
+
+
+def do_clean(number):
+    """clean unwanted versions"""
+    result = local("ls -1 versions/", capture=True)
+    file_names = result.stdout.strip().split('\n')
+    file_names.sort()
+    print(file_names)
+    number = int(number)
+    if number < 1:
+        number = 1
+    rm_files = file_names[0:-number]
+    for file in rm_files:
+        f_n = file.split(".")[0]
+        if run("rm -rf /data/web_static/releases/{}/".
+               format(f_n)).failed is True:
+            print("faild")
+            return False
+        if gloVar == 1:
+            local("rm -rf versions/{}".format(file))
+    gloVar = 1
