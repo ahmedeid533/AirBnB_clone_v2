@@ -9,6 +9,7 @@ env.user = "ubuntu"
 gloVar = 0
 file_pa = ""
 
+
 def do_pack():
     """web_static"""
     try:
