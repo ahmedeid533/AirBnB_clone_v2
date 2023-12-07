@@ -6,6 +6,8 @@ from datetime import datetime
 import os
 env.hosts = ["100.25.215.68", "100.25.147.204"]
 env.user = "ubuntu"
+
+
 @task
 def do_pack():
     """web_static"""
@@ -22,16 +24,13 @@ def do_pack():
 @task
 def do_deploy(archive_path):
     """deploy"""
-    
+
     if os.path.isfile(archive_path) is False:
         return False
     file = archive_path.split("/")[-1]
     name = file.split(".")[0]
 
     if put(archive_path, "/tmp/{}".format(file)).failed is True:
-        return False
-    if run("rm -rf /data/web_static/releases/{}/".
-           format(name)).failed is True:
         return False
     if run("mkdir -p /data/web_static/releases/{}/".
            format(name)).failed is True:
@@ -41,8 +40,8 @@ def do_deploy(archive_path):
         return False
     if run("rm /tmp/{}".format(file)).failed is True:
         return False
-    if run("mv /data/web_static/releases/{}/web_static/* "
-           "/data/web_static/releases/{}/".format(name, name)).failed is True:
+    if run("mv /data/web_static/releases/{}/web_static/* \
+           /data/web_static/releases/{}/".format(name, name)).failed is True:
         return False
     if run("rm -rf /data/web_static/releases/{}/web_static".
            format(name)).failed is True:
