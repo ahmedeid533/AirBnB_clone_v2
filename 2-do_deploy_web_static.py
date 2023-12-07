@@ -12,9 +12,9 @@ def do_pack():
     """web_static"""
     try:
         time = datetime.now().strftime('%Y%m%d%H%M%S')
-        name_we = 'web_static_{}.tgz web_static'.format(time)
+        name_we = 'web_static_{}.tgz'.format(time)
         local("mkdir -p versions")
-        local("tar -cvzf versions/{}".format(name_we))
+        local("tar -cvzf versions/{} web_static".format(name_we))
         return "versions/"
     except Exception:
         return None
