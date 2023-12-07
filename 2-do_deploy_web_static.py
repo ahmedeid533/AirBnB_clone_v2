@@ -24,6 +24,8 @@ def do_deploy(archive_path):
     env.hosts = ['100.25.215.68', '100.25.147.204']
     env.user = "ubuntu"
     if not os.path.exists(archive_path):
+        print("false")
         return (False)
     else:
+        print("true")
         return True
