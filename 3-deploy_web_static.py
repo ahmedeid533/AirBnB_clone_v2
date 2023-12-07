@@ -16,7 +16,8 @@ def do_pack():
         name_we = 'web_static_{}.tgz'.format(time)
         local("mkdir -p versions")
         local("tar -cvzf versions/{} web_static".format(name_we))
-        return "versions/{}".format(name_we)
+        pas = 'versions/{}'.format(name_we)
+        return pas
     except Exception:
         return None
 
