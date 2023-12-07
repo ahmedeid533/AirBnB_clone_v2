@@ -65,9 +65,8 @@ def deploy():
 
 def do_clean(number):
     """clean unwanted versions"""
-    result = local("ls versions/")
-    output_lines = result.stdout.splitlines()
-    file_names = [line.strip() for line in output_lines]
+    result = local("ls -1 versions/")
+    file_names = result.stdout.strip().split('\n')
     file_names.sort()
     print(file_names)
     number = int(number)
