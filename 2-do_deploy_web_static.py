@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """use .tgz file"""
+
 from fabric.api import *
 from datetime import datetime
 import os
@@ -15,19 +16,18 @@ def do_pack():
         name_we = 'web_static_{}.tgz'.format(time)
         local("mkdir -p versions")
         local("tar -cvzf versions/{} web_static".format(name_we))
-        return "versions/"
+        pas = 'versions/{}'.format(name_we)
+        return pas
     except Exception:
         return None
 
 
 def do_deploy(archive_path):
     """deploy"""
-
     if os.path.isfile(archive_path) is False:
         return False
     file = archive_path.split("/")[-1]
     name = file.split(".")[0]
-
     if put(archive_path, "/tmp/{}".format(file)).failed is True:
         return False
     if run("rm -rf /data/web_static/releases/{}/".
