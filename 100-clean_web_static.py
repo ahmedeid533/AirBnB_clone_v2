@@ -69,6 +69,7 @@ def do_clean(number):
     output_lines = result.stdout.splitlines()
     file_names = [line.strip() for line in output_lines]
     file_names.sort()
+    number = int(number)
     if number < 1:
         number = 1
     rm_files = file_names[0:-number]
