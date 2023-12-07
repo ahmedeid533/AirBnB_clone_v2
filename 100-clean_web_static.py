@@ -6,7 +6,8 @@ import os
 
 env.hosts = ["100.25.215.68", "100.25.147.204"]
 env.user = "ubuntu"
-
+gloVar = 0
+file_pa = ""
 
 def do_pack():
     """web_static"""
@@ -57,9 +58,11 @@ def do_deploy(archive_path):
 
 def deploy():
     """Create and distribute"""
-    file_pa = do_pack()
+    if gloVar == 0:
+        file_pa = do_pack()
     if file_pa is None:
         return False
+    gloVar = 1
     return do_deploy(file_pa)
 
 
@@ -79,4 +82,6 @@ def do_clean(number):
                format(f_n)).failed is True:
             print("faild")
             return False
-        local("rm -rf versions/{}".format(file))
+        if gloVar == 1:
+            local("rm -rf versions/{}".format(file))
+    gloVar = 1
