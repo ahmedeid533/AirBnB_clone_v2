@@ -8,6 +8,18 @@ env.hosts = ["100.25.215.68", "100.25.147.204"]
 env.user = "ubuntu"
 
 
+def do_pack():
+    """web_static"""
+    try:
+        time = datetime.now().strftime('%Y%m%d%H%M%S')
+        name_we = 'web_static_{}.tgz'.format(time)
+        local("mkdir -p versions")
+        local("tar -cvzf versions/{} web_static".format(name_we))
+        return "versions/{}".format(name_we)
+    except Exception:
+        return None
+
+
 def do_deploy(archive_path):
     """deploy"""
     if os.path.isfile(archive_path) is False:
@@ -28,8 +40,8 @@ def do_deploy(archive_path):
         return False
     if run("rm /tmp/{}".format(file)).failed is True:
         return False
-    if run("mv /data/web_static/releases/{}/web_static/* "
-           "data/web_static/releases/{}/".format(name, name)).failed is True:
+    if run("mv /data/web_static/releases/{}/web_static/* \
+           data/web_static/releases/{}/".format(name, name)).failed is True:
         return False
     if run("rm -rf /data/web_static/releases/{}/web_static".
            format(name)).failed is True:

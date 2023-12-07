@@ -42,8 +42,8 @@ def do_deploy(archive_path):
         return False
     if run("rm /tmp/{}".format(file)).failed is True:
         return False
-    if run("mv /data/web_static/releases/{}/web_static/* "
-           "/data/web_static/releases/{}/".format(name, name)).failed is True:
+    if run("mv /data/web_static/releases/{}/web_static/* \
+           /data/web_static/releases/{}/".format(name, name)).failed is True:
         return False
     if run("rm -rf /data/web_static/releases/{}/web_static".
            format(name)).failed is True:
@@ -64,24 +64,3 @@ def deploy():
         return False
     gloVar = 1
     return do_deploy(file_pa)
-
-
-def do_clean(number):
-    """clean unwanted versions"""
-    result = local("ls -1 versions/", capture=True)
-    file_names = result.stdout.strip().split('\n')
-    file_names.sort()
-    print(file_names)
-    number = int(number)
-    if number < 1:
-        number = 1
-    rm_files = file_names[0:-number]
-    for file in rm_files:
-        f_n = file.split(".")[0]
-        if run("rm -rf /data/web_static/releases/{}/".
-               format(f_n)).failed is True:
-            print("faild")
-            return False
-        if gloVar == 1:
-            local("rm -rf versions/{}".format(file))
-    gloVar = 1
