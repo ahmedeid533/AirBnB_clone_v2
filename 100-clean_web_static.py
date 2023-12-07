@@ -57,7 +57,24 @@ def do_deploy(archive_path):
 
 def deploy():
     """Create and distribute"""
-    file = do_pack()
-    if file is None:
+    file_pa = do_pack()
+    if file_pa is None:
         return False
-    return do_deploy(file)
+    return do_deploy(file_pa)
+
+
+def do_clean(number):
+    """clean unwanted versions"""
+    result = local("ls versions/", hide=True)
+    output_lines = result.stdout.splitlines()
+    file_names = [line.strip() for line in output_lines]
+    file_names.sort()
+    if number < 1:
+        number = 1
+    rm_files = file_names[0:-number]
+    for file in rm_files:
+        f_n = file.split(".")[0]
+        if run("rm -rf /data/web_static/releases/{}/".
+               format(f_n)).failed is True:
+            return False
+        local("rm -rf versions/{}".format(file))
