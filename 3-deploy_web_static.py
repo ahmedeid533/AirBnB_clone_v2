@@ -4,8 +4,8 @@ from fabric.api import *
 from datetime import datetime
 from os.path import exists, isdir
 env.hosts = ["100.25.215.68", "100.25.147.204"]
-archive_pa = None
 
+@runs_once
 def do_pack():
     """web_static"""
     try:
@@ -35,7 +35,6 @@ def do_deploy(archive_path):
         run('rm -rf {}{}/web_static'.format(path, no_ext))
         run('rm -rf /data/web_static/current')
         run('ln -s {}{}/ /data/web_static/current'.format(path, no_ext))
-        print("New version deployed!")
         return True
     except:
         return False
@@ -43,13 +42,7 @@ def do_deploy(archive_path):
 
 def deploy():
     """creates and distributes"""
-    global archive_pa
-    setvar()
-    if archive_pa is None:
+    archive_path = do_pack()
+    if archive_path is None:
         return False
-    return do_deploy(archive_pa)
-
-@runs_once
-def setvar():
-    global archive_pa
-    archive_pa = do_pack()
+    return do_deploy(archive_path)
