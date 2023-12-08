@@ -4,7 +4,7 @@ from fabric.api import *
 from datetime import datetime
 from os.path import exists, isdir
 env.hosts = ["100.25.215.68", "100.25.147.204"]
-
+archive_pa = None
 
 def do_pack():
     """web_static"""
@@ -42,7 +42,8 @@ def do_deploy(archive_path):
 
 def deploy():
     """creates and distributes"""
-    archive_path = runs_once(do_pack())
-    if archive_path is None:
+    global archive_pa
+    runs_once(archive_pa = do_pack())
+    if archive_pa is None:
         return False
-    return do_deploy(archive_path)
+    return do_deploy(archive_pa)
