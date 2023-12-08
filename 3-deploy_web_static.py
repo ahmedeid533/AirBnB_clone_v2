@@ -5,6 +5,7 @@ from datetime import datetime
 from os.path import exists, isdir
 env.hosts = ["100.25.215.68", "100.25.147.204"]
 
+
 @runs_once
 def do_pack():
     """web_static"""
