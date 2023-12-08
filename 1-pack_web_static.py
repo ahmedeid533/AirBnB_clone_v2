@@ -1,17 +1,16 @@
 #!/usr/bin/python3
 """genrate.tgz file"""
-
-from fabric.api import local, task
+from fabric.api import *
 from datetime import datetime
 
 
 def do_pack():
     """archive web_static"""
-    try:
-        time_now = datetime.now().strftime('%Y%m%d%H%M%S')
-        nameOfFile = 'web_static_{}.tgz'.format(time_now)
-        local("mkdir -p versions")
-        local("tar -cvzf versions/{} web_static".format(nameOfFile))
-        return "versions/{}".format(nameOfFile)
-    except Exception:
+    time = datetime.now().strftime('%Y%m%d%H%M%S')
+    name_we = 'web_static_{}.tgz'.format(time)
+    local("mkdir -p versions")
+    create = local("tar -cvzf versions/{} web_static".format(name_we))
+    if create is not None:
+        return name_we
+    else:
         return None
