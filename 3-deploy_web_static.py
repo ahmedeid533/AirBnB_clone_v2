@@ -43,12 +43,12 @@ def do_deploy(archive_path):
 def deploy():
     """creates and distributes"""
     global archive_pa
-    runs_once(setvar())
+    setvar()
     if archive_pa is None:
         return False
     return do_deploy(archive_pa)
 
-
+@runs_once
 def setvar():
     global archive_pa
     archive_pa = do_pack()
