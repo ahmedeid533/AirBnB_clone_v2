@@ -38,8 +38,7 @@ def number(n):
 @app.route('/number_template/<int:n>', strict_slashes=False)
 def number_template(n):
     """ Displays 'n is a number' """
-    OorE = 'even' if n%2 == 0 else 'odd'
-    return render_template('5-number.html', n=n, OorE=OorE)
+    return render_template('5-number.html', n=n)
 
 if __name__ == "__main__":
     """ Main Function """
