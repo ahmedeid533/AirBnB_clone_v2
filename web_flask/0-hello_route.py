@@ -1,11 +1,15 @@
 #!/usr/bin/python3
+""" Starts a Flask web application """
 from flask import Flask, request
-from markupsafe import escape
-
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
-@app.route('/')
+
+@app.route('/', strict_slashes=False)
 def hello():
-    name = request.args.get("name", "World")
-    return f'Hello, {escape(name)}!'
+    """ Displays 'Hello HBNB!' """
+    return 'Hello, HBNB!'
+
+if __name__ == "__main__":
+    """ Main Function """
+    app.run(host='0.0.0.0', port=5000)
