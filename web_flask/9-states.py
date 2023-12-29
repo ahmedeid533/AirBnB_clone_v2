@@ -27,4 +27,4 @@ def states_id(id):
 		states = states["State.{}".format(id)]
 	else:
 		states = None
-	return render_template('9-states.html', state=states[0])
+	return render_template('9-states.html', state=states)
