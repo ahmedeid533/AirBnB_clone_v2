@@ -12,7 +12,7 @@ def teardown_db(exception):
     storage.close()
 
 
-@app.route('/states_list', strict_slashes=False)
+@app.route('/states', strict_slashes=False)
 def states_list():
     """ Displays 'n is a number' """
     states = sorted(list(storage.all("State").values()), key=lambda x: x.name)
