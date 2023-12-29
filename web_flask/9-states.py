@@ -21,10 +21,14 @@ def states_list():
 
 @app.route('/states/<id>', strict_slashes=False)
 def states_id(id):
-	""" Displays 'n is a number' """
-	states = storage.all("State")
-	if "State.{}".format(id) in states:
-		states = states["State.{}".format(id)]
-	else:
-		states = None
-	return render_template('9-states.html', state=states)
+    """ Displays 'n is a number' """
+    states = storage.all("State")
+    if "State.{}".format(id) in states:
+        states = states["State.{}".format(id)]
+    else:
+        states = None
+    return render_template('9-states.html', state=states)
+
+if __name__ == "__main__":
+    """ Main Function """
+    app.run(host='0.0.0.0', port=5000)
